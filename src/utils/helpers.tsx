@@ -26,7 +26,7 @@ export const getUniqueValues = (
     }
   });
   if (includeAll) {
-    uniqueValues.unshift("All");
+    uniqueValues.unshift("all");
   }
   return uniqueValues;
 };

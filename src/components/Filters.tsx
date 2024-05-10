@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   FilterState,
@@ -27,31 +27,42 @@ const Filters = () => {
   const categories = getUniqueValues(allProducts, "category");
   const companies = getUniqueValues(allProducts, "company");
   const colors = getUniqueValues(allProducts, "colors");
+  // const colors = getUniqueValues(allProducts, "attributes.colors");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFilters({ name: e.target.name, value: e.target.value }));
   };
 
-  const handleCategoryClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const clickedCategory = e.currentTarget.textContent?.toLowerCase() || "";
-    dispatch(
-      updateFilters({
-        name: "category",
-        value: clickedCategory,
-      })
+  useEffect(() => {
+    const filtered = allProducts.filter(
+      (product) =>
+        product.attributes.category.toLowerCase() === category.toLowerCase()
     );
+    dispatch(updateFilters({ name: "filteredProducts", value: filtered }));
+  }, [category, allProducts, dispatch]);
+
+  const handleCategoryClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const clickedCategory = e.currentTarget.textContent || "";
+    console.log(clickedCategory);
+    dispatch(updateFilters({ name: "category", value: clickedCategory }));
+  };
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const priceValue = e.target.value.toString();
+    dispatch(updateFilters({ name: "price", value: priceValue }));
   };
 
   const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCompany = e.target.value;
-    dispatch(updateFilters({ name: "company", value: selectedCompany }));
+    dispatch(updateFilters({ name: "company", value: e.target.value }));
   };
 
-  const handleColorClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleColorClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const clickedColor = e.currentTarget.dataset.color || "";
     dispatch(
       updateFilters({
         name: "color",
-        value: e.currentTarget.dataset.color || "",
+        value: clickedColor,
       })
     );
   };
@@ -90,6 +101,7 @@ const Filters = () => {
                 <button
                   key={index}
                   onClick={handleCategoryClick}
+                  // onClick={() => handleCategoryClick(cat)}
                   type="button"
                   name="category"
                   className={`${
@@ -146,7 +158,7 @@ const Filters = () => {
                       color === col ? "color-btn active" : "color-btn"
                     }`}
                     data-color={col}
-                    onClick={updateFilters}
+                    onClick={handleColorClick}
                   >
                     {color === col ? <FaCheck /> : null}
                   </button>
@@ -164,7 +176,7 @@ const Filters = () => {
               min={minPrice}
               max={maxPrice}
               value={price}
-              onChange={updateFilters}
+              onChange={handlePriceChange}
             />
           </div>
 

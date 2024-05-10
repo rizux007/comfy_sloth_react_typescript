@@ -76,6 +76,7 @@ const filterSlice = createSlice({
       action: PayloadAction<{ name: string; value: string }>
     ) {
       const { name, value } = action.payload;
+      console.log(action.payload);
       if (name === "category") {
         state.filters.category = value;
       } else if (name === "color") {
@@ -84,13 +85,14 @@ const filterSlice = createSlice({
         state.filters.price = Number(value);
       } else if (name === "shipping") {
         state.filters.shipping = value === "true";
+      } else if (name === "text") {
+        state.filters.text = value.toLowerCase();
       }
-      // else {
-      //   state.filters[name] = value;
-      // }
     },
+
     clearFilters(state) {
       state.filters = initialState.filters;
+      state.filteredProducts = state.allProducts;
     },
   },
 });
