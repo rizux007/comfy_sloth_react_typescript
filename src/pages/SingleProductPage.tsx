@@ -1,57 +1,60 @@
 import styled from "styled-components";
-// import { useGetProductByNameQuery } from "../services/product";
+import { useGetProductByNameQuery } from "../services/product";
 import {
   AddToCart,
+  Error,
+  Loading,
   PageHero,
   ProductImages,
   Stars,
 } from "../components";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Product } from "../utils/types";
+import { SingleProductResponse } from "../utils/types";
 import { formatPrice } from "../utils/helpers";
-import { PRODUCTS } from "../data";
+// import { PRODUCTS } from "../data";
 
 const SingleProductPage: React.FC = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { id } = useParams();
   const productId = parseInt(id || "");
 
-  // const { data, isError, isLoading, isSuccess } =
-  //   useGetProductByNameQuery(productId);
+  const { data, isError, isLoading, isSuccess } =
+    useGetProductByNameQuery(productId);
 
-  const [singleProduct, setSingleProduct] = useState<Product>();
+  // const [singleProduct, setSingleProduct] = useState<Product>();
+  const [singleProduct, setSingleProduct] = useState<SingleProductResponse>();
   useEffect(() => {
-    // if (isSuccess) {
-    //   setSingleProduct(data);
-    // }
-    // if (isError) {
-    //   setTimeout(() => {
-    //     navigate("/");
-    //   }, 3000);
-    // }
+    if (isSuccess) {
+      setSingleProduct(data);
+    }
+    if (isError) {
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    }
 
-    setSingleProduct(
-      PRODUCTS.data.find((data) =>
-        productId ? data.id === productId : data.id === 12
-      )
-    );
-    // }, [data, isError, isSuccess, navigate]);
-  }, [productId]);
+    // setSingleProduct(
+    //   PRODUCTS.data.find((data) =>
+    //     productId ? data.id === productId : data.id === 12
+    //   )
+    // );
+  }, [data, isError, isSuccess, productId, navigate]);
+  // }, [productId]);
 
-  // if (isError) {
-  //   return <Error />;
-  // }
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
+  if (isError) {
+    return <Error />;
+  }
+  if (isLoading) {
+    return <Loading />;
+  }
 
   // if (isSuccess && singleProduct) {
   //   const product = singleProduct.data;
   if (singleProduct) {
     const product = singleProduct;
 
-    const { attributes, id: SKU } = product;
+    const { attributes, id: SKU } = product.data;
     const { title, price, description, image, category } = attributes;
     return (
       <Wrapper>
@@ -82,7 +85,7 @@ const SingleProductPage: React.FC = () => {
                 {category}
               </p>
               <hr />
-              {SKU > 0 && <AddToCart product={product} />}
+              {SKU > 0 && <AddToCart product={product.data} />}
             </section>
           </div>
         </div>

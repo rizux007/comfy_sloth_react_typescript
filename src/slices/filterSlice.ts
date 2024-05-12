@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Product } from "../utils/types";
+import { FilterUpdate, Product } from "../utils/types";
 
 export interface FilterState {
   filteredProducts: Product[];
@@ -40,6 +40,7 @@ const filterSlice = createSlice({
   reducers: {
     loadProducts(state, action: PayloadAction<Product[]>) {
       state.allProducts = action.payload;
+      state.filteredProducts = action.payload;
     },
     setGridView(state) {
       state.gridView = true;
@@ -53,13 +54,9 @@ const filterSlice = createSlice({
         state.allProducts.sort((a, b) => {
           switch (state.sort) {
             case "price-lowest":
-              return (
-                parseFloat(a.attributes.price) - parseFloat(b.attributes.price)
-              );
+              return a.attributes.price - b.attributes.price;
             case "price-highest":
-              return (
-                parseFloat(b.attributes.price) - parseFloat(a.attributes.price)
-              );
+              return b.attributes.price - a.attributes.price;
             case "name-a":
               return a.attributes.title.localeCompare(b.attributes.title);
             case "name-z":
@@ -71,23 +68,20 @@ const filterSlice = createSlice({
       }
     },
 
-    updateFilters(
-      state,
-      action: PayloadAction<{ name: string; value: string }>
-    ) {
-      const { name, value } = action.payload;
+    updateFilters(state, action: PayloadAction<FilterUpdate>) {
+      const { name, value, filtered } = action.payload;
       console.log(action.payload);
-      if (name === "category") {
-        state.filters.category = value;
-      } else if (name === "color") {
-        state.filters.color = value;
-      } else if (name === "price") {
-        state.filters.price = Number(value);
-      } else if (name === "shipping") {
-        state.filters.shipping = value === "true";
-      } else if (name === "text") {
-        state.filters.text = value.toLowerCase();
-      }
+
+      const updatedFilters = {
+        ...state.filters,
+        [name]: value,
+      };
+      const updatedFilteredProducts = filtered ?? state.allProducts;
+      return {
+        ...state,
+        filters: updatedFilters,
+        filteredProducts: updatedFilteredProducts,
+      };
     },
 
     clearFilters(state) {

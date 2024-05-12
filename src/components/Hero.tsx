@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import heroBcg2 from "../assets/hero-bcg-2.jpeg";
 import heroBcg from "../assets/hero-bcg.jpeg";

@@ -32,10 +32,10 @@ const CartItem = (item: CartItemType) => {
           <p className="color">
             color : <span style={{ background: color }}></span>
           </p>
-          <h5 className="price-small">{formatPrice(price)}</h5>
+          <h5 className="price-small">{formatPrice(parseFloat(price))}</h5>
         </div>
       </div>
-      <h5 className="price">{formatPrice(price)}</h5>
+      <h5 className="price">{formatPrice(parseFloat(price))}</h5>
       <AmountButtons amount={amount} increase={increase} decrease={decrease} />
       <h5 className="subtotal">{formatPrice(Number(price) * amount)}</h5>
       <button type="button" className="remove-btn" onClick={handleRemove}>

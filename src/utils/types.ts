@@ -10,12 +10,19 @@ export interface ProductAttributes {
   description: string;
   featured: boolean;
   image: string;
-  price: string;
+  // price: string;
+  price: number;
   publishedAt: string;
   shipping: boolean;
   title: string;
   updatedAt: string;
   colors: string[];
+}
+
+export interface FilterUpdate {
+  name: string;
+  value: string;
+  filtered: Product[];
 }
 
 export type Product = {
@@ -53,15 +60,10 @@ export type CartItemType = {
 };
 
 export type CartState = {
-  // isSidebarOpen: boolean;
-  // products_loading: boolean;
-  // products_error: boolean;
   cartItems: CartItemType[];
   numItemsInCart: number;
   cartTotal: number;
   shipping: number;
-  // tax: number;
-  // orderTotal: number;
 };
 
 export type Checkout = {

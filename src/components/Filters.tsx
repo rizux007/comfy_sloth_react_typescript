@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   FilterState,
@@ -8,7 +7,9 @@ import {
 import { formatPrice, getUniqueValues } from "../utils/helpers";
 import { FaCheck } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../hooks";
+
 const Filters = () => {
+  const dispatch = useAppDispatch();
   const {
     allProducts,
     filters: {
@@ -22,60 +23,115 @@ const Filters = () => {
       shipping,
     },
   } = useAppSelector((state: { filters: FilterState }) => state.filters);
-  const dispatch = useAppDispatch();
 
   const categories = getUniqueValues(allProducts, "category");
   const companies = getUniqueValues(allProducts, "company");
   const colors = getUniqueValues(allProducts, "colors");
-  // const colors = getUniqueValues(allProducts, "attributes.colors");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(updateFilters({ name: e.target.name, value: e.target.value }));
-  };
-
-  useEffect(() => {
-    const filtered = allProducts.filter(
-      (product) =>
-        product.attributes.category.toLowerCase() === category.toLowerCase()
+    const searchText = e.target.value;
+    let filteredProducts = allProducts;
+    if (searchText) {
+      filteredProducts = allProducts.filter((product) =>
+        product.attributes.title.includes(searchText)
+      );
+    }
+    dispatch(
+      updateFilters({
+        name: "filteredProducts",
+        value: searchText,
+        filtered: filteredProducts,
+      })
     );
-    dispatch(updateFilters({ name: "filteredProducts", value: filtered }));
-  }, [category, allProducts, dispatch]);
-
-  const handleCategoryClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const clickedCategory = e.currentTarget.textContent || "";
-    console.log(clickedCategory);
-    dispatch(updateFilters({ name: "category", value: clickedCategory }));
   };
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const priceValue = e.target.value.toString();
-    dispatch(updateFilters({ name: "price", value: priceValue }));
+
+  const handleCategoryClick = (clickedCategory: string) => () => {
+    let selectedCategoryProducts = allProducts;
+
+    if (clickedCategory !== "all") {
+      selectedCategoryProducts = allProducts.filter(
+        (product) => product.attributes.category === clickedCategory
+      );
+    }
+    dispatch(
+      updateFilters({
+        name: "category",
+        value: clickedCategory,
+        filtered: selectedCategoryProducts,
+      })
+    );
   };
 
   const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(updateFilters({ name: "company", value: e.target.value }));
-  };
+    const selectedCompany = e.target.value;
+    console.log(selectedCompany);
 
-  const handleColorClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    const clickedColor = e.currentTarget.dataset.color || "";
+    let filteredProducts = allProducts;
+    if (selectedCompany !== "all") {
+      filteredProducts = allProducts.filter(
+        (product) => product.attributes.company === selectedCompany
+      );
+    }
     dispatch(
       updateFilters({
-        name: "color",
+        name: "filteredProducts",
+        value: selectedCompany,
+        filtered: filteredProducts,
+      })
+    );
+  };
+
+  const handleColorClick = (clickedColor: string) => {
+    let filteredProducts = allProducts;
+    if (clickedColor !== "all") {
+      filteredProducts = allProducts.filter((product) =>
+        product.attributes.colors.includes(clickedColor)
+      );
+    }
+    dispatch(
+      updateFilters({
+        name: "filteredProducts",
         value: clickedColor,
+        filtered: filteredProducts,
+      })
+    );
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const priceValue = e.target.value;
+    const filteredProducts = allProducts.filter(
+      (product) => product.attributes.price >= priceValue
+    );
+    dispatch(
+      updateFilters({
+        name: "filteredProducts",
+        value: priceValue,
+        filtered: filteredProducts,
       })
     );
   };
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const shippingValue = e.target.checked ? "true" : "false";
+    let filteredProducts = allProducts;
+    if (e.target.checked) {
+      filteredProducts = allProducts.filter(
+        (product) => product.attributes.shipping
+      );
+    }
     dispatch(
-      updateFilters({ name: e.target.name, value: e.target.checked.toString() })
+      updateFilters({
+        name: "filteredProducts",
+        value: shippingValue,
+        filtered: filteredProducts,
+      })
     );
   };
 
   const handleClearFilters = () => {
     dispatch(clearFilters());
   };
+
   return (
     <Wrapper>
       <div className="content">
@@ -100,13 +156,12 @@ const Filters = () => {
               return (
                 <button
                   key={index}
-                  onClick={handleCategoryClick}
-                  // onClick={() => handleCategoryClick(cat)}
+                  onClick={handleCategoryClick(cat)}
                   type="button"
                   name="category"
-                  className={`${
-                    category === cat.toLowerCase() ? "active" : null
-                  }`}
+                  value={cat}
+                  id="category"
+                  className={`${category === cat ? "active" : ""}`}
                 >
                   {cat}
                 </button>
@@ -119,27 +174,30 @@ const Filters = () => {
             <select
               name="company"
               value={company}
+              id="company"
               onChange={handleCompanyChange}
               className="company"
             >
-              {companies.map((c, index) => (
-                <option key={index} value={c}>
-                  {c}
-                </option>
-              ))}
+              {companies.map((c, index) => {
+                return (
+                  <option key={index} value={c}>
+                    {c}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
           <div className="form-control">
             <h5>colors</h5>
             <div className="colors">
-              {colors.map((col, index) => {
-                if (col === "all") {
+              {colors.map((c, index) => {
+                if (c === "all") {
                   return (
                     <button
                       key={index}
                       name="color"
-                      onClick={handleColorClick}
+                      onClick={() => handleColorClick(c)}
                       data-color="all"
                       className={`${
                         color === "all" ? "all-btn active" : "all-btn"
@@ -153,14 +211,14 @@ const Filters = () => {
                   <button
                     key={index}
                     name="color"
-                    style={{ background: col }}
+                    style={{ background: c }}
                     className={`${
-                      color === col ? "color-btn active" : "color-btn"
+                      color === c ? "color-btn active" : "color-btn"
                     }`}
-                    data-color={col}
-                    onClick={handleColorClick}
+                    data-color={c}
+                    onClick={() => handleColorClick(c)}
                   >
-                    {color === col ? <FaCheck /> : null}
+                    {color === c ? <FaCheck /> : null}
                   </button>
                 );
               })}
@@ -195,7 +253,6 @@ const Filters = () => {
             className="clear-btn"
             onClick={handleClearFilters}
           >
-            {" "}
             clear filters
           </button>
         </form>

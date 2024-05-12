@@ -3,9 +3,7 @@ import { formatPrice } from "../utils/helpers";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../hooks";
 const CartTotal = () => {
-  const { cartTotal, cartItems, numItemsInCart, shipping } = useAppSelector(
-    (state) => state.cart
-  );
+  const { cartTotal, shipping } = useAppSelector((state) => state.cart);
   const myUser: boolean = true;
   return (
     <Wrapper>
@@ -27,7 +25,7 @@ const CartTotal = () => {
             proceed to checkout
           </Link>
         ) : (
-          <button type="button" className="btn" onClick={loginWithRedirect}>
+          <button type="button" className="btn">
             login to checkout
           </button>
         )}

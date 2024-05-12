@@ -1,14 +1,12 @@
 import { Product, ProductAttributes } from "./types";
-
-export const formatPrice = (price: string): string => {
-  const numericPrice = parseFloat(price);
-  if (isNaN(numericPrice)) {
+export const formatPrice = (price: number): string => {
+  if (isNaN(price)) {
     return "Invalid Price";
   }
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-  }).format(numericPrice / 100);
+  }).format(price / 100);
 };
 
 export const getUniqueValues = (

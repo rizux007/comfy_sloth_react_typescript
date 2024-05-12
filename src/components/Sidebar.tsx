@@ -9,7 +9,7 @@ import { openSidebar } from "../slices/sidebarSlice";
 
 const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
-  const {isSidebarOpen} = useAppSelector((state) => state.sidebar);
+  const { isSidebarOpen } = useAppSelector((state) => state.sidebar);
 
   // const isOpen: boolean = false;
   return (

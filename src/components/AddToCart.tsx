@@ -71,7 +71,7 @@ const AddToCart = ({ product }: { product: Product }) => {
                 productID: id,
                 image: attributes.image,
                 title: attributes.title,
-                price: attributes.price,
+                price: attributes.price.toString(),
                 amount,
                 productColor: mainColor,
                 company: attributes.company,
