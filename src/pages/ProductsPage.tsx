@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Filters, PageHero, ProductList, Sort } from "../components";
 const ProductsPage = () => {

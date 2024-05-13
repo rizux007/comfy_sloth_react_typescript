@@ -1,15 +1,16 @@
 {
-  "homepage": "https://rizux007.github.io/Comfy_store_typescript",
+  "homepage": "https://rizux007.github.io/comfy_sloth_react_typescript",
   "name": "react-course-comfy-typescript",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "pre-deploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "deploy": "gh-pages -d build"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
@@ -33,6 +34,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "gh-pages": "^6.1.1",
+    "gh": "^2.8.9",
+    "pages": "^0.0.16",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }

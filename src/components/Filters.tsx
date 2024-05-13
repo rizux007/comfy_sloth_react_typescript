@@ -98,14 +98,14 @@ const Filters = () => {
   };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const priceValue = e.target.value;
+    const priceValue = parseFloat(e.target.value);
     const filteredProducts = allProducts.filter(
       (product) => product.attributes.price >= priceValue
     );
     dispatch(
       updateFilters({
         name: "filteredProducts",
-        value: priceValue,
+        value: priceValue.toString(),
         filtered: filteredProducts,
       })
     );
