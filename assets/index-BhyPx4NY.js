@@ -149,7 +149,7 @@ Error generating stack: `+o.message+`
       grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     }
   }
-`,Ym="/assets/logo-3Bc65HRl.svg",An=oc,an=ic,ex=()=>{const e=an(t=>t.cart.numItemsInCart);return w.jsxs(tx,{className:"cart-btn-wrapper",children:[w.jsx(Ee,{to:"/cart",className:"cart-btn",children:w.jsxs("span",{className:"cart-container",children:[w.jsx(qw,{}),w.jsx("span",{className:"cart-value",children:e})]})}),w.jsx("button",{type:"button",className:"auth-btn",children:w.jsx(Yw,{})})]})},tx=H.div`
+`,Ym="/assets/logo-BJeE-vZQ.svg",An=oc,an=ic,ex=()=>{const e=an(t=>t.cart.numItemsInCart);return w.jsxs(tx,{className:"cart-btn-wrapper",children:[w.jsx(Ee,{to:"/cart",className:"cart-btn",children:w.jsxs("span",{className:"cart-container",children:[w.jsx(qw,{}),w.jsx("span",{className:"cart-value",children:e})]})}),w.jsx("button",{type:"button",className:"auth-btn",children:w.jsx(Yw,{})})]})},tx=H.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
