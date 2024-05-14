@@ -15,7 +15,7 @@ import {
 function App() {
   // window.localStorage.setItem("products", JSON.stringify(PRODUCTS));
   return (
-    <Router>
+    <Router basename="/comfy_sloth_react_typescript">
       <Navbar />
       <Sidebar />
       <Routes>
