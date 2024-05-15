@@ -11,6 +11,11 @@ const CartButtons = () => {
   const { isAuthenticated, logout, loginWithRedirect } = useAuth0();
   // const dispatch = useAppDispatch();
 
+  const handleLoginRedirect = () => {
+    loginWithRedirect({
+      appState: { returnTo: window.location.origin },
+    });
+  };
   return (
     <Wrapper className="cart-btn-wrapper">
       <Link to="/cart" className="cart-btn">
@@ -36,7 +41,7 @@ const CartButtons = () => {
         <button
           type="button"
           className="auth-btn"
-          onClick={() => loginWithRedirect()}
+          onClick={handleLoginRedirect}
         >
           {/* Login  */}
           <FaUserPlus />
