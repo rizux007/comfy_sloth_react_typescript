@@ -9,7 +9,8 @@ const CartTotal = () => {
 
   const handleLoginRedirect = () => {
     loginWithRedirect({
-      appState: { returnTo: window.location.origin },
+      // appState: { returnTo: window.location.origin },
+      appState: { returnTo: "/checkout" },
     });
   };
   return (
