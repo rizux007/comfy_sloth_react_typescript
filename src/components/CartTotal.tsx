@@ -1,21 +1,16 @@
 import styled from "styled-components";
 import { formatPrice } from "../utils/helpers";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 const CartTotal = () => {
   const { cartTotal, shipping } = useAppSelector((state) => state.cart);
   const { user, loginWithRedirect } = useAuth0();
 
-  // const handleLoginRedirect = () => {
-  //   loginWithRedirect({
-  //     appState: { returnTo: window.location.origin },
-  //     // appState: { returnTo: window.location.pathname },
-  //   });
-  // };
+  const navigate = useNavigate();
   const handleLoginRedirect = () => {
     loginWithRedirect({
-      appState: { returnTo: "/checkout" },
+      appState: { returnTo: window.location.origin },
     });
   };
   return (
@@ -38,7 +33,14 @@ const CartTotal = () => {
             proceed to checkout
           </Link>
         ) : (
-          <button type="button" className="btn" onClick={handleLoginRedirect}>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              navigate("/checkout");
+              handleLoginRedirect;
+            }}
+          >
             login to checkout
           </button>
         )}
