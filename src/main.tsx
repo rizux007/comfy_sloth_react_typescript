@@ -11,8 +11,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     domain="dev-yolp04snkh5i6lp8.us.auth0.com"
     clientId="q73Jrv6kSr9EiidnrZ1HLIaOkxRU333c"
     authorizationParams={{
-      redirect_uri: "http://localhost:5173/comfy_sloth_react_typescript",
-      // redirect_uri: window.location.origin,
+      // redirect_uri: "http://localhost:5173/comfy_sloth_react_typescript",
+      redirect_uri: window.location.origin,
     }}
     cacheLocation="localstorage"
   >
