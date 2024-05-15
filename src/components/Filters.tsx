@@ -8,11 +8,9 @@ import { formatPrice, getUniqueValues } from "../utils/helpers";
 import { FaCheck } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { useState } from "react";
-// import { useState } from "react";
 
 const Filters = () => {
   const [selectedCompany, setSelectedCompany] = useState<string>("all");
-  // const [selectedColor setSelectedColor] = useState<string>("all");
   const dispatch = useAppDispatch();
   const {
     allProducts,
@@ -82,35 +80,33 @@ const Filters = () => {
   };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const priceValue = parseFloat(e.target.value);
-    const filteredProducts = allProducts.filter(
-      (product) => product.attributes.price >= priceValue
-    );
+    const priceValue = Number(e.target.value);
     dispatch(
       updateFilters({
         name: "filteredProducts",
-        value: priceValue.toString(),
+        value: priceValue,
+        filtered: allProducts.filter(
+          (product) => Number(product.attributes.price) <= priceValue
+        ),
+      })
+    );
+  };
+  const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const shippingChecked = e.target.checked;
+
+    const filteredProducts = shippingChecked
+      ? allProducts.filter((product) => product.attributes.shipping)
+      : allProducts;
+
+    dispatch(
+      updateFilters({
+        name: "shipping",
+        value: shippingChecked,
         filtered: filteredProducts,
       })
     );
   };
 
-  const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const shippingValue = e.target.checked ? "true" : "false";
-    let filteredProducts = allProducts;
-    if (e.target.checked) {
-      filteredProducts = allProducts.filter(
-        (product) => product.attributes.shipping
-      );
-    }
-    dispatch(
-      updateFilters({
-        name: "filteredProducts",
-        value: shippingValue,
-        filtered: filteredProducts,
-      })
-    );
-  };
   const handleClearFilters = () => {
     dispatch(clearFilters());
   };
@@ -207,21 +203,22 @@ const Filters = () => {
                       all
                     </button>
                   );
+                } else {
+                  return (
+                    <button
+                      key={index}
+                      name="color"
+                      style={{ background: c }}
+                      className={`${
+                        color === c ? "color-btn active" : "color-btn"
+                      }`}
+                      data-color={c}
+                      onClick={() => handleColorClick(c)}
+                    >
+                      {color === c ? <FaCheck /> : null}
+                    </button>
+                  );
                 }
-                return (
-                  <button
-                    key={index}
-                    name="color"
-                    style={{ background: c }}
-                    className={`${
-                      color === c ? "color-btn active" : "color-btn"
-                    }`}
-                    data-color={c}
-                    onClick={() => handleColorClick(c)}
-                  >
-                    {color === c ? <FaCheck /> : null}
-                  </button>
-                );
               })}
             </div>
           </div>
@@ -229,6 +226,7 @@ const Filters = () => {
           <div className="form-control">
             <h5>price</h5>
             <p className="price">{formatPrice(price)}</p>
+            {/* <p className="price">{price}</p> */}
             <input
               type="range"
               name="price"
@@ -249,6 +247,7 @@ const Filters = () => {
               checked={shipping}
             />
           </div>
+
           <button
             type="button"
             className="clear-btn"

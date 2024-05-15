@@ -21,7 +21,7 @@ export interface ProductAttributes {
 
 export interface FilterUpdate {
   name: string;
-  value: string;
+  value: string | boolean | number;
   filtered: Product[];
 }
 
