@@ -6,19 +6,22 @@ import { links } from "../utils/constants";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { openSidebar } from "../slices/sidebarSlice";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
   const { isSidebarOpen } = useAppSelector((state) => state.sidebar);
+  const { user } = useAuth0();
 
-  // const isOpen: boolean = false;
   return (
     <SidebarContainer>
       <aside
         className={`${isSidebarOpen ? "sidebar show-sidebar" : "sidebar"}`}
       >
         <div className="sidebar-header">
-          <img src={logo} className="logo" alt="comfy logo" />
+          <Link to="/" onClick={() => dispatch(openSidebar())}>
+            <img src={logo} className="logo" alt="comfy logo" />
+          </Link>
           <button className="close-btn" onClick={() => dispatch(openSidebar())}>
             <FaTimes />
           </button>
@@ -34,11 +37,13 @@ const Sidebar: React.FC = () => {
               </li>
             );
           })}
-          <li>
-            <Link to="/checkout" onClick={() => dispatch(openSidebar())}>
-              checkout
-            </Link>
-          </li>
+          {user && (
+            <li>
+              <Link to="/checkout" onClick={() => dispatch(openSidebar())}>
+                checkout
+              </Link>
+            </li>
+          )}
         </ul>
       </aside>
     </SidebarContainer>

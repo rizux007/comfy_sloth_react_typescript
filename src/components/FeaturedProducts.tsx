@@ -6,6 +6,7 @@ import Error from "./Error";
 import { useGetProductsByNameQuery } from "../services/products";
 import { Product } from "../utils/types";
 import SingleProduct from "./SingleProduct";
+import { Link } from "react-router-dom";
 
 const FeaturedProducts: React.FC = () => {
   const [featured, setFeatured] = useState<Product[]>();
@@ -43,6 +44,9 @@ const FeaturedProducts: React.FC = () => {
           );
         })}
       </div>
+      <Link to="/products" className="btn">
+        all products
+      </Link>
     </Wrapper>
   );
 };

@@ -50,27 +50,25 @@ const filterSlice = createSlice({
     },
     updateSort(state, action: PayloadAction<string>) {
       state.sort = action.payload;
-      if (state.allProducts.length > 0) {
-        state.allProducts.sort((a, b) => {
-          switch (state.sort) {
-            case "price-lowest":
-              return a.attributes.price - b.attributes.price;
-            case "price-highest":
-              return b.attributes.price - a.attributes.price;
-            case "name-a":
-              return a.attributes.title.localeCompare(b.attributes.title);
-            case "name-z":
-              return b.attributes.title.localeCompare(a.attributes.title);
-            default:
-              return 0;
-          }
-        });
-      }
+      state.filteredProducts = [...state.filteredProducts];
+      state.filteredProducts.sort((a, b) => {
+        switch (state.sort) {
+          case "price-lowest":
+            return a.attributes.price - b.attributes.price;
+          case "price-highest":
+            return b.attributes.price - a.attributes.price;
+          case "name-a":
+            return a.attributes.title.localeCompare(b.attributes.title);
+          case "name-z":
+            return b.attributes.title.localeCompare(a.attributes.title);
+          default:
+            return 0;
+        }
+      });
     },
 
     updateFilters(state, action: PayloadAction<FilterUpdate>) {
       const { name, value, filtered } = action.payload;
-      console.log(action.payload);
 
       const updatedFilters = {
         ...state.filters,

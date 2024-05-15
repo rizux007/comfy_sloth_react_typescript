@@ -9,27 +9,37 @@ import {
   Cart,
   Error,
   Checkout,
+  PrivateRoute,
+  AuthWrapper,
 } from "./pages";
 // import { PRODUCTS } from "./data";
 
 function App() {
   // window.localStorage.setItem("products", JSON.stringify(PRODUCTS));
   return (
-    <Router basename="/comfy_sloth_react_typescript">
-      {/* <Router basename="/comfy_sloth_react_typescript"> */}
-      <Navbar />
-      <Sidebar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<SingleProduct />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <AuthWrapper>
+      <Router basename="/comfy_sloth_react_typescript">
+        <Navbar />
+        <Sidebar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<SingleProduct />} />
+          <Route
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                <Checkout />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route path="*" element={<Error />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </AuthWrapper>
   );
 }
 

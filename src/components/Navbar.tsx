@@ -7,8 +7,10 @@ import styled from "styled-components";
 import { links } from "../utils/constants";
 import { useAppDispatch } from "../hooks";
 import { openSidebar } from "../slices/sidebarSlice";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar: React.FC = () => {
+  const { user } = useAuth0();
   const dispatch = useAppDispatch();
   return (
     <NavContainer>
@@ -34,6 +36,11 @@ const Navbar: React.FC = () => {
               </li>
             );
           })}
+          {user && (
+            <li>
+              <Link to="/checkout">checkout</Link>
+            </li>
+          )}
         </ul>
         <CartButtons />
       </div>

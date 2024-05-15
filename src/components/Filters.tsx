@@ -7,11 +7,16 @@ import {
 import { formatPrice, getUniqueValues } from "../utils/helpers";
 import { FaCheck } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../hooks";
+// import { useState } from "react";
 
 const Filters = () => {
+  // const [searchText, setSearchText] = useState<string>("");
+  // const [searchProducts, setSearchProducts] = useState(filteredProducts);
+
   const dispatch = useAppDispatch();
   const {
     allProducts,
+    filteredProducts,
     filters: {
       text,
       category,
@@ -28,19 +33,36 @@ const Filters = () => {
   const companies = getUniqueValues(allProducts, "company");
   const colors = getUniqueValues(allProducts, "colors");
 
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const searchText = e.target.value;
+  //   let searchProducts = filteredProducts;
+  //   if (searchText) {
+  //     searchProducts = allProducts.filter((product) =>
+  //       product.attributes.title.includes(searchText)
+  //     );
+  //   }
+  //   dispatch(
+  //     updateFilters({
+  //       name: "filteredProducts",
+  //       value: searchText,
+  //       filtered: searchProducts,
+  //     })
+  //   );
+  // };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchText = e.target.value;
-    let filteredProducts = allProducts;
+    // setSearchText(searchText);
+    let searchProducts = filteredProducts;
     if (searchText) {
-      filteredProducts = allProducts.filter((product) =>
+      searchProducts = filteredProducts.filter((product) =>
         product.attributes.title.includes(searchText)
       );
     }
     dispatch(
       updateFilters({
-        name: "filteredProducts",
+        name: "text",
         value: searchText,
-        filtered: filteredProducts,
+        filtered: searchProducts,
       })
     );
   };

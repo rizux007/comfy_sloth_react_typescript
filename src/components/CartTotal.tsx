@@ -2,9 +2,16 @@ import styled from "styled-components";
 import { formatPrice } from "../utils/helpers";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../hooks";
+import { useAuth0 } from "@auth0/auth0-react";
 const CartTotal = () => {
   const { cartTotal, shipping } = useAppSelector((state) => state.cart);
-  const myUser: boolean = true;
+  const { user, loginWithRedirect } = useAuth0();
+
+  const handleLoginRedirect = () => {
+    loginWithRedirect({
+      appState: { returnTo: window.location.pathname },
+    });
+  };
   return (
     <Wrapper>
       <div>
@@ -20,12 +27,12 @@ const CartTotal = () => {
             order total :<span>{formatPrice(cartTotal + shipping)}</span>
           </h4>
         </article>
-        {myUser ? (
+        {user ? (
           <Link to="/checkout" className="btn">
             proceed to checkout
           </Link>
         ) : (
-          <button type="button" className="btn">
+          <button type="button" className="btn" onClick={handleLoginRedirect}>
             login to checkout
           </button>
         )}

@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import {
   FilterState,
@@ -8,14 +7,15 @@ import {
   updateSort,
 } from "../slices/filterSlice";
 import { BsFillGridFill, BsList } from "react-icons/bs";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
 const Sort = () => {
   const {
     allProducts: products,
     gridView,
     sort,
-  } = useSelector((state: { filters: FilterState }) => state.filters);
-  const dispatch = useDispatch();
+  } = useAppSelector((state: { filters: FilterState }) => state.filters);
+  const dispatch = useAppDispatch();
   const handleGridViewClick = () => {
     dispatch(setGridView());
   };

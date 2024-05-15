@@ -1,10 +1,16 @@
-import { FaShoppingCart, FaUserPlus } from "react-icons/fa";
+import { FaShoppingCart, FaUserMinus, FaUserPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useAppSelector } from "../hooks";
+import { useAuth0 } from "@auth0/auth0-react";
+import { clearCart } from "../slices/cartSlice";
 
 const CartButtons = () => {
   const numItemsInCart = useAppSelector((state) => state.cart.numItemsInCart);
+  // const {user} = useAppSelector((state)=> state.userState)
+  const { isAuthenticated, logout, loginWithRedirect } = useAuth0();
+  // const dispatch = useAppDispatch();
+
   return (
     <Wrapper className="cart-btn-wrapper">
       <Link to="/cart" className="cart-btn">
@@ -14,10 +20,28 @@ const CartButtons = () => {
           <span className="cart-value">{numItemsInCart}</span>
         </span>
       </Link>
-      <button type="button" className="auth-btn">
-        {/* Login  */}
-        <FaUserPlus />
-      </button>
+      {isAuthenticated ? (
+        <button
+          type="button"
+          className="auth-btn"
+          onClick={() => {
+            clearCart();
+            logout();
+          }}
+        >
+          {/* Logout */}
+          <FaUserMinus />
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="auth-btn"
+          onClick={() => loginWithRedirect()}
+        >
+          {/* Login  */}
+          <FaUserPlus />
+        </button>
+      )}
     </Wrapper>
   );
 };
