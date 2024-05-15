@@ -908,7 +908,7 @@ Error generating stack: `+o.message+`
       margin-bottom: 3rem;
     }
   }
-`,b3=()=>{const{cartTotal:e,shipping:t}=jt(o=>o.cart),{user:n,loginWithRedirect:r}=Fr(),i=()=>{r({appState:{returnTo:window.location.origin}})};return w.jsx(P3,{children:w.jsxs("div",{children:[w.jsxs("article",{children:[w.jsxs("h5",{children:["subtotal : ",w.jsx("span",{children:_t(e)})]}),w.jsxs("p",{children:["shipping fee : ",w.jsx("span",{children:_t(t)})]}),w.jsx("hr",{}),w.jsxs("h4",{children:["order total :",w.jsx("span",{children:_t(e+t)})]})]}),n?w.jsx(ue,{to:"/checkout",className:"btn",children:"proceed to checkout"}):w.jsx("button",{type:"button",className:"btn",onClick:i,children:"login to checkout"})]})})},P3=H.section`
+`,b3=()=>{const{cartTotal:e,shipping:t}=jt(o=>o.cart),{user:n,loginWithRedirect:r}=Fr(),i=()=>{r({appState:{returnTo:"/checkout"}})};return w.jsx(P3,{children:w.jsxs("div",{children:[w.jsxs("article",{children:[w.jsxs("h5",{children:["subtotal : ",w.jsx("span",{children:_t(e)})]}),w.jsxs("p",{children:["shipping fee : ",w.jsx("span",{children:_t(t)})]}),w.jsx("hr",{}),w.jsxs("h4",{children:["order total :",w.jsx("span",{children:_t(e+t)})]})]}),n?w.jsx(ue,{to:"/checkout",className:"btn",children:"proceed to checkout"}):w.jsx("button",{type:"button",className:"btn",onClick:i,children:"login to checkout"})]})})},P3=H.section`
   margin-top: 3rem;
   display: flex;
   justify-content: center;
