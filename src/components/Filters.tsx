@@ -7,57 +7,28 @@ import {
 import { formatPrice, getUniqueValues } from "../utils/helpers";
 import { FaCheck } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { useState } from "react";
 // import { useState } from "react";
 
 const Filters = () => {
-  // const [searchText, setSearchText] = useState<string>("");
-  // const [searchProducts, setSearchProducts] = useState(filteredProducts);
-
+  const [selectedCompany, setSelectedCompany] = useState<string>("all");
+  const [selectedColor, setSelectedColor] = useState<string>("all");
   const dispatch = useAppDispatch();
   const {
     allProducts,
     filteredProducts,
-    filters: {
-      text,
-      category,
-      company,
-      color,
-      minPrice,
-      maxPrice,
-      price,
-      shipping,
-    },
+    filters: { text, category, color, minPrice, maxPrice, price, shipping },
   } = useAppSelector((state: { filters: FilterState }) => state.filters);
 
   const categories = getUniqueValues(allProducts, "category");
   const companies = getUniqueValues(allProducts, "company");
   const colors = getUniqueValues(allProducts, "colors");
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const searchText = e.target.value;
-  //   let searchProducts = filteredProducts;
-  //   if (searchText) {
-  //     searchProducts = allProducts.filter((product) =>
-  //       product.attributes.title.includes(searchText)
-  //     );
-  //   }
-  //   dispatch(
-  //     updateFilters({
-  //       name: "filteredProducts",
-  //       value: searchText,
-  //       filtered: searchProducts,
-  //     })
-  //   );
-  // };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchText = e.target.value;
-    // setSearchText(searchText);
-    let searchProducts = filteredProducts;
-    if (searchText) {
-      searchProducts = filteredProducts.filter((product) =>
-        product.attributes.title.includes(searchText)
-      );
-    }
+    const searchProducts = allProducts.filter((product) =>
+      product.attributes.title.toLowerCase().includes(searchText.toLowerCase())
+    );
     dispatch(
       updateFilters({
         name: "text",
@@ -68,29 +39,36 @@ const Filters = () => {
   };
 
   const handleCategoryClick = (clickedCategory: string) => () => {
-    let selectedCategoryProducts = allProducts;
+    let selectedCategoryProducts = filteredProducts;
 
     if (clickedCategory !== "all") {
       selectedCategoryProducts = allProducts.filter(
         (product) => product.attributes.category === clickedCategory
       );
+      dispatch(
+        updateFilters({
+          name: "category",
+          value: clickedCategory,
+          filtered: selectedCategoryProducts,
+        })
+      );
+    } else {
+      dispatch(
+        updateFilters({
+          name: "category",
+          value: "all",
+          filtered: allProducts,
+        })
+      );
     }
-    dispatch(
-      updateFilters({
-        name: "category",
-        value: clickedCategory,
-        filtered: selectedCategoryProducts,
-      })
-    );
   };
 
   const handleCompanyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCompany = e.target.value;
-    console.log(selectedCompany);
-
-    let filteredProducts = allProducts;
+    setSelectedCompany(selectedCompany);
+    let searchProducts = filteredProducts;
     if (selectedCompany !== "all") {
-      filteredProducts = allProducts.filter(
+      searchProducts = allProducts.filter(
         (product) => product.attributes.company === selectedCompany
       );
     }
@@ -98,23 +76,7 @@ const Filters = () => {
       updateFilters({
         name: "filteredProducts",
         value: selectedCompany,
-        filtered: filteredProducts,
-      })
-    );
-  };
-
-  const handleColorClick = (clickedColor: string) => {
-    let filteredProducts = allProducts;
-    if (clickedColor !== "all") {
-      filteredProducts = allProducts.filter((product) =>
-        product.attributes.colors.includes(clickedColor)
-      );
-    }
-    dispatch(
-      updateFilters({
-        name: "filteredProducts",
-        value: clickedColor,
-        filtered: filteredProducts,
+        filtered: searchProducts,
       })
     );
   };
@@ -149,9 +111,25 @@ const Filters = () => {
       })
     );
   };
-
   const handleClearFilters = () => {
     dispatch(clearFilters());
+  };
+
+  const handleColorClick = (clickedColor: string) => {
+    let filteredProducts = allProducts;
+    setSelectedColor(clickedColor);
+    if (clickedColor !== "all") {
+      filteredProducts = allProducts.filter((product) =>
+        product.attributes.colors.includes(clickedColor)
+      );
+    }
+    dispatch(
+      updateFilters({
+        name: "filteredProducts",
+        value: clickedColor,
+        filtered: filteredProducts,
+      })
+    );
   };
 
   return (
@@ -195,7 +173,8 @@ const Filters = () => {
             <h5>company</h5>
             <select
               name="company"
-              value={company}
+              // value={company}
+              value={selectedCompany}
               id="company"
               onChange={handleCompanyChange}
               className="company"
