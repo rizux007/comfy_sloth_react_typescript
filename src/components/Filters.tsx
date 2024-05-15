@@ -12,7 +12,7 @@ import { useState } from "react";
 
 const Filters = () => {
   const [selectedCompany, setSelectedCompany] = useState<string>("all");
-  const [selectedColor, setSelectedColor] = useState<string>("all");
+  // const [selectedColor setSelectedColor] = useState<string>("all");
   const dispatch = useAppDispatch();
   const {
     allProducts,
@@ -117,7 +117,7 @@ const Filters = () => {
 
   const handleColorClick = (clickedColor: string) => {
     let filteredProducts = allProducts;
-    setSelectedColor(clickedColor);
+    // setSelectedColor(clickedColor);
     if (clickedColor !== "all") {
       filteredProducts = allProducts.filter((product) =>
         product.attributes.colors.includes(clickedColor)
