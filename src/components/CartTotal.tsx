@@ -7,10 +7,15 @@ const CartTotal = () => {
   const { cartTotal, shipping } = useAppSelector((state) => state.cart);
   const { user, loginWithRedirect } = useAuth0();
 
+  // const handleLoginRedirect = () => {
+  //   loginWithRedirect({
+  //     appState: { returnTo: window.location.origin },
+  //     // appState: { returnTo: window.location.pathname },
+  //   });
+  // };
   const handleLoginRedirect = () => {
     loginWithRedirect({
-      appState: { returnTo: window.location.origin },
-      // appState: { returnTo: window.location.pathname },
+      appState: { returnTo: "/checkout" },
     });
   };
   return (
