@@ -4,7 +4,7 @@ import {
   clearFilters,
   updateFilters,
 } from "../slices/filterSlice";
-import { formatPrice, getUniqueValues } from "../utils/helpers";
+import { getUniqueValues } from "../utils/helpers";
 import { FaCheck } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { useState } from "react";
@@ -15,7 +15,7 @@ const Filters = () => {
   const {
     allProducts,
     filteredProducts,
-    filters: { text, category, color, minPrice, maxPrice, price, shipping },
+    filters: { text, category, color, shipping },
   } = useAppSelector((state: { filters: FilterState }) => state.filters);
 
   const categories = getUniqueValues(allProducts, "category");
@@ -79,18 +79,18 @@ const Filters = () => {
     );
   };
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const priceValue = Number(e.target.value);
-    dispatch(
-      updateFilters({
-        name: "filteredProducts",
-        value: priceValue,
-        filtered: allProducts.filter(
-          (product) => Number(product.attributes.price) <= priceValue
-        ),
-      })
-    );
-  };
+  // const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const priceValue = Number(e.target.value);
+  //   dispatch(
+  //     updateFilters({
+  //       name: "filteredProducts",
+  //       value: priceValue,
+  //       filtered: allProducts.filter(
+  //         (product) => Number(product.attributes.price) <= priceValue
+  //       ),
+  //     })
+  //   );
+  // };
   const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const shippingChecked = e.target.checked;
 
@@ -223,10 +223,9 @@ const Filters = () => {
             </div>
           </div>
 
-          <div className="form-control">
+          {/* <div className="form-control">
             <h5>price</h5>
             <p className="price">{formatPrice(price)}</p>
-            {/* <p className="price">{price}</p> */}
             <input
               type="range"
               name="price"
@@ -235,7 +234,7 @@ const Filters = () => {
               value={price}
               onChange={handlePriceChange}
             />
-          </div>
+          </div>  */}
 
           <div className="form-control shipping">
             <label htmlFor="shipping">free shipping</label>
