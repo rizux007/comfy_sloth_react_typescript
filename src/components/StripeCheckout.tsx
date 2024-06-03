@@ -14,7 +14,10 @@ import { useEffect, useState, useCallback } from "react";
 import { formatPrice } from "../utils/helpers";
 import { clearCart } from "../slices/cartSlice";
 
-const publicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+
+// const publicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+const publicKey = 'pk_test_51PM7I8H3XXImQry6lR1tlmmALIJhmCPhFshHE2oEXqJcS3qb0O1OXo4sxQjFCAir7UEibrr4jdhkYFe8hKyvnXxJ00HtCsqa2j';
+
 const promise = loadStripe(publicKey);
 
 const CheckoutForm = () => {
