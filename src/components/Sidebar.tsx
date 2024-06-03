@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { openSidebar } from "../slices/sidebarSlice";
 import { useAuth0 } from "@auth0/auth0-react";
+import CartButtons from "./CartButtons";
 
 const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ const Sidebar: React.FC = () => {
             </li>
           )}
         </ul>
+        <CartButtons />
       </aside>
     </SidebarContainer>
   );

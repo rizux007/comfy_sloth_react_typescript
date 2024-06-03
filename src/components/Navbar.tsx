@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo.svg";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -12,6 +12,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Navbar: React.FC = () => {
   const { user } = useAuth0();
   const dispatch = useAppDispatch();
+  const [activeLink, setActiveLink] = useState<string>("");
+
+  const handleLinkClick = (navLink: string) => {
+    setActiveLink(navLink);
+  };
+
   return (
     <NavContainer>
       <div className="nav-center">
@@ -32,13 +38,27 @@ const Navbar: React.FC = () => {
             const { id, text, url } = link;
             return (
               <li key={id}>
-                <Link to={url}>{text}</Link>
+                {/* <Link to={url}>{text}</Link> */}
+                <Link
+                  to={url}
+                  className={activeLink === url ? "active" : ""}
+                  onClick={() => handleLinkClick(url)}
+                >
+                  {text}
+                </Link>
               </li>
             );
           })}
           {user && (
             <li>
-              <Link to="/checkout">checkout</Link>
+              {/* <Link to="/checkout">checkout</Link> */}
+              <Link
+                to="/checkout"
+                className={activeLink === "/checkout" ? "active" : ""}
+                onClick={() => handleLinkClick("/checkout")}
+              >
+                checkout
+              </Link>
             </li>
           )}
         </ul>
@@ -107,6 +127,9 @@ const NavContainer = styled.nav`
         &:hover {
           border-bottom: 2px solid var(--clr-primary-7);
         }
+      }
+      a.active {
+        border-bottom: 2px solid var(--clr-primary-7);
       }
     }
     .cart-btn-wrapper {

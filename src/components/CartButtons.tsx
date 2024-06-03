@@ -1,15 +1,16 @@
 import { FaShoppingCart, FaUserMinus, FaUserPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 import { clearCart } from "../slices/cartSlice";
+import { openSidebar } from "../slices/sidebarSlice";
 
 const CartButtons = () => {
   const numItemsInCart = useAppSelector((state) => state.cart.numItemsInCart);
   // const {user} = useAppSelector((state)=> state.userState)
   const { isAuthenticated, logout, loginWithRedirect } = useAuth0();
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleLoginRedirect = () => {
     loginWithRedirect({
@@ -18,7 +19,11 @@ const CartButtons = () => {
   };
   return (
     <Wrapper className="cart-btn-wrapper">
-      <Link to="/cart" className="cart-btn">
+      <Link
+        to="/cart"
+        className="cart-btn"
+        onClick={() => dispatch(openSidebar())}
+      >
         {/* Cart */}
         <span className="cart-container">
           <FaShoppingCart />
