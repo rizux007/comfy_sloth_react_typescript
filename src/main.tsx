@@ -8,8 +8,6 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 const redirectUri = window.location.origin + window.location.pathname;
 
-console.log( window.location.origin)
-console.log( window.location.pathname)
 // const authDomain = import.meta.env.VITE_REACT_APP_AUTH_DOMAIN;
 // const authClientId = import.meta.env.VITE_REACT_APP_AUTH_CLIENT_ID;
 

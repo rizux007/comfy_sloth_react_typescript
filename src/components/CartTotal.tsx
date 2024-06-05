@@ -9,10 +9,22 @@ const CartTotal = () => {
 
   const handleLoginRedirect = () => {
     loginWithRedirect({
-      // appState: { returnTo: window.location.origin },
-      appState: { returnTo: "/checkout" },
+      appState: {
+        returnTo: window.location.origin + "/comfy_sloth_react_typescript",
+      },
     });
   };
+  // const handleLoginRedirect = () => {
+  //   loginWithRedirect({
+  //     // appState: { returnTo: window.location.origin },
+  //     appState: {
+  //       // returnTo:
+  //       //   window.location.origin + "comfy_sloth_react_typescript/checkout",
+  //       returnTo: `${window.location.origin}/comfy_sloth_react_typescript/checkout`,
+  //     },
+  //   });
+  //   console.log("origine dans le total", window.location.origin);
+  // };
   return (
     <Wrapper>
       <div>

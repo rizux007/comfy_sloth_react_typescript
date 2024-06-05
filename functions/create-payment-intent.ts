@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import Stripe from "stripe";
 
 dotenv.config();
-const stripeSecretKey = 'sk_test_51PM7I8H3XXImQry6de9Xk4hfqW1wXNTEk2YkjJpHrHfCHJKLJjdLUxITOy0o2thRY6BxIoeon5DHpkyy6jvoq0tH00brIbDR8R';
-
+const stripeSecretKey =
+  "sk_test_51PM7I8H3XXImQry6de9Xk4hfqW1wXNTEk2YkjJpHrHfCHJKLJjdLUxITOy0o2thRY6BxIoeon5DHpkyy6jvoq0tH00brIbDR8R";
 
 // const stripe = new Stripe(process.env.VITE_STRIPE_SECRET_KEY as string, {
 //   apiVersion: "2024-04-10",
@@ -13,7 +13,6 @@ const stripeSecretKey = 'sk_test_51PM7I8H3XXImQry6de9Xk4hfqW1wXNTEk2YkjJpHrHfCHJ
 const stripe = new Stripe(stripeSecretKey, {
   apiVersion: "2024-04-10",
 });
-
 
 const handler: Handler = async (event) => {
   if (event.body) {

@@ -69,16 +69,13 @@ const CheckoutForm = () => {
       //   JSON.stringify({ cartItems, shipping, cartTotal })
       // );
 
-
       const paymentIntent = await stripeObject.paymentIntents.create({
         amount: shipping + cartTotal,
         currency: "usd",
       });
       console.log("Affichage du data", paymentIntent);
 
-
-     
-      setClientSecret(paymentIntent.client_secret ?? "" );
+      setClientSecret(paymentIntent.client_secret ?? "");
     } catch (error) {
       console.error(error);
     }
