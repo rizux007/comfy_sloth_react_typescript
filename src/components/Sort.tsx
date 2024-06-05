@@ -33,6 +33,7 @@ const Sort = () => {
       <div className="btn-container">
         <button
           type="button"
+          data-test="grid"
           className={gridView ? "active" : ""}
           onClick={handleGridViewClick}
         >
@@ -41,6 +42,7 @@ const Sort = () => {
 
         <button
           type="button"
+          data-test="list"
           className={!gridView ? "active" : ""}
           onClick={handleListViewClick}
         >
@@ -54,14 +56,23 @@ const Sort = () => {
         <select
           name="sort"
           id="sort"
+          data-test="priceName"
           className="sort-input"
           value={sort}
           onChange={handleSortChange}
         >
-          <option value="price-lowest">price (lowest)</option>
-          <option value="price-highest">price(highest)</option>
-          <option value="name-a">name (a-z)</option>
-          <option value="name-z">name (z-a)</option>
+          <option data-test="price-lowest" value="price-lowest">
+            price (lowest)
+          </option>
+          <option data-test="price-highest" value="price-highest">
+            price(highest)
+          </option>
+          <option data-test="name-a" value="name-a">
+            name (a-z)
+          </option>
+          <option data-test="name-z" value="name-z">
+            name (z-a)
+          </option>
         </select>
       </form>
     </Wrapper>

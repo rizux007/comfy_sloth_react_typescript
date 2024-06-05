@@ -11,7 +11,7 @@ const SingleProduct = ({ id, attributes }: ProductProps) => {
   const { image, price, title } = attributes;
 
   return (
-    <Wrapper>
+    <Wrapper data-test="product">
       <div className="container">
         <img src={image} alt={title} />
         <Link to={`/products/${id}`} className="link">

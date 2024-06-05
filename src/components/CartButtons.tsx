@@ -21,6 +21,7 @@ const CartButtons = () => {
     <Wrapper className="cart-btn-wrapper">
       <Link
         to="/cart"
+        data-test="cart"
         className="cart-btn"
         onClick={() => dispatch(openSidebar())}
       >
@@ -34,6 +35,7 @@ const CartButtons = () => {
         <button
           type="button"
           className="auth-btn"
+          data-test="FaUserMinus"
           onClick={() => {
             clearCart();
             logout();
@@ -45,11 +47,12 @@ const CartButtons = () => {
       ) : (
         <button
           type="button"
+          data-test="FaUserPlus"
           className="auth-btn"
           onClick={handleLoginRedirect}
         >
           {/* Login  */}
-          <FaUserPlus />
+          <FaUserPlus id="plus-button" />
         </button>
       )}
     </Wrapper>

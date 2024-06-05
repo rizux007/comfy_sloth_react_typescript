@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
   const dispatch = useAppDispatch();
   const { isSidebarOpen } = useAppSelector((state) => state.sidebar);
   const { user } = useAuth0();
-
+// const user:boolean= true 
   return (
     <SidebarContainer>
       <aside
@@ -30,6 +30,7 @@ const Sidebar: React.FC = () => {
         <ul className="links">
           {links.map((link) => {
             const { id, text, url } = link;
+
             return (
               <li key={id}>
                 <Link to={url} onClick={() => dispatch(openSidebar())}>
@@ -40,7 +41,11 @@ const Sidebar: React.FC = () => {
           })}
           {user && (
             <li>
-              <Link to="/checkout" onClick={() => dispatch(openSidebar())}>
+              <Link
+                to="/checkout"
+                data-test="/checkoutSide"
+                onClick={() => dispatch(openSidebar())}
+              >
                 checkout
               </Link>
             </li>

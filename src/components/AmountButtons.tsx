@@ -14,11 +14,21 @@ const AmountButtons: React.FC<AmountButtonsProps> = ({
 }) => {
   return (
     <Wrapper className="amount-btn">
-      <button type="button" className="amount-btn" onClick={decrease}>
+      <button
+        data-test="FaMinus"
+        type="button"
+        className="amount-btn"
+        onClick={decrease}
+      >
         <FaMinus />
       </button>
       <h2 className="amount">{amount}</h2>
-      <button type="button" className="amount-btn" onClick={increase}>
+      <button
+        data-test="FaPlus"
+        type="button"
+        className="amount-btn"
+        onClick={increase}
+      >
         <FaPlus />
       </button>
     </Wrapper>

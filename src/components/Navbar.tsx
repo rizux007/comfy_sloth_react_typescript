@@ -11,6 +11,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar: React.FC = () => {
   const { user } = useAuth0();
+  // const user: boolean = true;
   const dispatch = useAppDispatch();
   const [activeLink, setActiveLink] = useState<string>("");
 
@@ -23,7 +24,7 @@ const Navbar: React.FC = () => {
       <div className="nav-center">
         <div className="nav-header">
           <Link to="/">
-            <img src={logo} alt="comfy sloth" />
+            <img src={logo} data-test="logo" alt="comfy sloth" />
           </Link>
           <button
             className="nav-toggle"
@@ -38,9 +39,10 @@ const Navbar: React.FC = () => {
             const { id, text, url } = link;
             return (
               <li key={id}>
-                {/* <Link to={url}>{text}</Link> */}
                 <Link
                   to={url}
+                  id="home"
+                  data-test={text}
                   className={activeLink === url ? "active" : ""}
                   onClick={() => handleLinkClick(url)}
                 >
@@ -51,9 +53,9 @@ const Navbar: React.FC = () => {
           })}
           {user && (
             <li>
-              {/* <Link to="/checkout">checkout</Link> */}
               <Link
                 to="/checkout"
+                data-test="/checkout"
                 className={activeLink === "/checkout" ? "active" : ""}
                 onClick={() => handleLinkClick("/checkout")}
               >

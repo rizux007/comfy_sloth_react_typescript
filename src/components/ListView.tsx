@@ -13,7 +13,7 @@ const ListView = ({ products }: GridViewProps) => {
         const { id, attributes } = product;
         const { image, title, description, price } = attributes;
         return (
-          <article key={id}>
+          <article key={id} data-test="product">
             <img src={image} alt={title} />
             <div>
               <h4>{title}</h4>
