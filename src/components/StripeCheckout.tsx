@@ -6,16 +6,21 @@ import {
   CardElement,
   useElements,
 } from "@stripe/react-stripe-js";
-import axios from "axios";
+// import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import { formatPrice } from "../utils/helpers";
 import { clearCart } from "../slices/cartSlice";
+import Stripe from "stripe";
+
+const stripeSecretKey =
+  "sk_test_51PM7I8H3XXImQry6de9Xk4hfqW1wXNTEk2YkjJpHrHfCHJKLJjdLUxITOy0o2thRY6BxIoeon5DHpkyy6jvoq0tH00brIbDR8R";
 
 // const publicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-const publicKey = 'pk_test_51PM7I8H3XXImQry6lR1tlmmALIJhmCPhFshHE2oEXqJcS3qb0O1OXo4sxQjFCAir7UEibrr4jdhkYFe8hKyvnXxJ00HtCsqa2j';
+const publicKey =
+  "pk_test_51PM7I8H3XXImQry6lR1tlmmALIJhmCPhFshHE2oEXqJcS3qb0O1OXo4sxQjFCAir7UEibrr4jdhkYFe8hKyvnXxJ00HtCsqa2j";
 
 const promise = loadStripe(publicKey);
 
@@ -34,6 +39,10 @@ const CheckoutForm = () => {
   const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
+
+  const stripeObject = new Stripe(stripeSecretKey, {
+    apiVersion: "2024-04-10",
+  });
 
   const cardStyle = {
     style: {
@@ -55,11 +64,21 @@ const CheckoutForm = () => {
 
   const createPaymentIntent = useCallback(async () => {
     try {
-      const { data } = await axios.post(
-        "/.netlify/functions/create-payment-intent",
-        JSON.stringify({ cartItems, shipping, cartTotal })
-      );
-      setClientSecret(data.clientSecret);
+      // const { data } = await axios.post(
+      //   "/.netlify/functions/create-payment-intent",
+      //   JSON.stringify({ cartItems, shipping, cartTotal })
+      // );
+
+
+      const paymentIntent = await stripeObject.paymentIntents.create({
+        amount: shipping + cartTotal,
+        currency: "usd",
+      });
+      console.log("Affichage du data", paymentIntent);
+
+
+     
+      setClientSecret(paymentIntent.client_secret ?? "" );
     } catch (error) {
       console.error(error);
     }
