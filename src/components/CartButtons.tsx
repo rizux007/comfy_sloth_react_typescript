@@ -14,7 +14,9 @@ const CartButtons = () => {
 
   const handleLoginRedirect = () => {
     loginWithRedirect({
-      appState: { returnTo: window.location.origin },
+      appState: {
+        returnTo: window.location.origin + "/comfy_sloth_react_typescript",
+      },
     });
   };
   return (
